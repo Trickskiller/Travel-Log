@@ -42,14 +42,6 @@ export class BaseService<T extends Base> {
   }
 
 
-  // get(page: number) : Observable<T[]>{
-  //     return this.httpClient.get<T[]>(this.url+"/"+this.endpoint+"?page="+page+"&total=10")
-  //     .pipe(
-  //         retry(2),
-  //         catchError(this.handleError)
-  //     )
-  // }
-
   getById(id: string): Observable<T> {
     return this.httpClient
       .get<T>(`${environment.apiUrl}/${this.endpoint}/${id}?include=user`)
