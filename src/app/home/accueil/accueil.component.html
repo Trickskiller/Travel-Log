@@ -1,0 +1,322 @@
+
+
+<ion-menu contentId="main-content">
+
+  <ion-content class="ion-no-padding ion-no-margin">
+    <ion-list class="ion-text-center main-header">
+      <div align="center">
+        <ion-avatar>
+          <img src="assets/avatar.png" />
+        </ion-avatar>
+        <ion-label color="white">
+          {{userName}}
+
+        </ion-label>
+      </div>
+    </ion-list>
+
+    <ion-menu-toggle
+      class="menu-items"
+      [autoHide]="false"
+      *ngFor="let page of pages; let i = index">
+      <ion-item
+        *ngIf="!page?.route"
+        class="ion-padding-start"
+        detail="false"
+        [routerLink]="[page.url]"
+    >
+        <ion-icon slot="end"  name="chevron-forward-outline"></ion-icon>
+        <ion-icon slot="start" [ios]="page.icon + '-outline'" [md]="page.icon + '-sharp'"></ion-icon>
+        <ion-label>{{page.title}}</ion-label>
+      </ion-item>
+      <ion-item
+        *ngIf="page?.route"
+        (click)="logout()"
+        class="ion-padding-start"
+        detail="false"
+        >
+        <ion-icon slot="end"  name="chevron-forward-outline"></ion-icon>
+        <ion-icon slot="start" [ios]="page.icon + '-outline'" [md]="page.icon + '-sharp'"></ion-icon>
+        <ion-label>{{page.title}}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title style="text-align: center;font-weight: bolder;color: #000;"  [style]="{fontSize: '30px'}">Voyages</ion-title>
+    <ion-buttons slot="end" >
+      <ion-menu-button [style]="{color: '#000000'}"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf="submitted">
+    <div style="display: block;">
+      <div style="width: 100%;display: flex;justify-content: center;">
+        <ion-spinner></ion-spinner>
+      </div>
+      <p>Patientez un instants...</p>
+    </div>
+    </ion-row>
+<div id="main-content"  style="padding-bottom: 40px !important;">
+  <div *ngIf="!submitted">
+    <div class="search ion-padding" style="display: flex;justify-content: center; align-items: center;">
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-input placeholder="Rechercher un object" (ionInput)="search($event)"></ion-input>
+
+
+      </ion-item>
+        <ion-icon name="funnel-outline" (click)="openFilter()"  style="color: white;background-color: #590575; border-radius: 50px;padding: 8px;font-size: 20px;"></ion-icon>
+
+
+      </div>
+
+
+      <ion-row class="ion-no-padding ion-no-margin" >
+        <ion-col class="ion-no-padding ion-no-margin"  size="12" style="justify-content: space-between;display: flex;align-items: center;">
+          <ion-col>
+            <!-- <h3 style="font-weight: bolder;">Fil D'actualité</h3> -->
+          </ion-col>
+          <ion-col style="display: flex;justify-content: end;">
+            <p-selectButton [(ngModel)]="layout" [options]="justifyOptions" optionValue="value">
+              <ng-template let-item pTemplate>
+                  <i [class]="item.icon"></i>
+              </ng-template>
+          </p-selectButton>
+          </ion-col>
+        </ion-col>
+      </ion-row>
+      <ion-grid *ngIf="layout ==='grid'">
+        <ion-row>
+          <ion-col size="6" *ngFor="let trip of data">
+            <ion-card class="location-card" >
+              <div routerLink="/home/details/{{trip.id}}">
+                <div >
+                  <img [src]="trip?.places[0].pictureUrl" />
+
+                </div>
+                <ion-item lines="none" style="display: flex;justify-content: space-between;align-items: center;">
+                  <ion-label class="ion-text-wrap" >
+                    <ion-text class="title">{{trip?.title}}</ion-text>
+                    <div style="display: flex;justify-content: space-between;">
+                      <div>
+                        <ion-text color="medium" style="overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;">
+                          {{trip?.description}}
+                        </ion-text>
+                      </div>
+                      <div>
+
+                      </div>
+
+                    </div>
+                  </ion-label>
+
+
+                </ion-item>
+              </div>
+              <ion-item>
+
+                  <ion-fab-button class="ion-no-margin" style="height: 30px;width: 30px;margin-right: 4px" size="small" (click)="setOpen(trip)" slot="end" color="medium">
+                    <ion-icon name="trash-outline" ></ion-icon>
+                  </ion-fab-button>
+
+                  <ion-fab-button class="ion-no-margin" style="height: 30px;width: 30px;" size="small" routerLink="/home/edit/{{trip.id}}" slot="end" >
+                    <ion-icon name="pencil-outline" ></ion-icon>
+                  </ion-fab-button>
+
+
+              </ion-item>
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+      <ion-row  *ngIf="layout ==='list'">
+        <ion-col size="12" *ngFor="let trip of data">
+          <ion-card class="ion-no-margin" >
+            <ion-card-header>
+              <ion-card-title>
+                <div style="display: flex;justify-content: space-between;">
+                  <div style="font-size: 18px;font-weight: bolder;color: #000;">
+                    {{trip.title}}
+                  </div>
+                  <div style="font-size: 12px;font-weight: normal;color: rgb(90, 90, 90);">
+                    {{trip.createdAt | date:"dd.MM.yyyy"}}
+                  </div>
+                </div>
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div routerLink="/home/details/{{trip.id}}" style=" overflow: hidden;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 3;margin-bottom: 5px;">
+                {{trip.description}}
+
+              </div>
+              <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <div  style="font-size: 12px;font-weight: normal;color: rgb(90, 90, 90);display: flex;">
+                  <span *ngFor="let loc of trip.places; index as i"> <p-tag value="{{loc.name}}"></p-tag>
+                  </span>
+                </div>
+                <div style="display: flex;">
+                  <ion-fab-button  color="medium" (click)="setOpen(trip)" style="height: 30px;width: 30px;margin-right: 4px" >
+                    <ion-icon name="trash-outline" style="font-size: 12px;"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button  style="height: 30px;width: 30px;" routerLink="/home/edit/{{trip.id}}">
+                    <ion-icon name="pencil-outline" style="font-size: 12px;" ></ion-icon>
+                  </ion-fab-button>
+
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+  </div>
+
+
+
+</div>
+<ion-fab routerLink="/home/add" slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 60px;">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+
+
+
+
+<ion-modal class="final" [isOpen]="isModalOpen" style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+  <ng-template style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+
+    <ion-content class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+      <div class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+        <div style="text-align: center;">
+          <ion-card-header>
+            <ion-card-title style="text-align: center;font-weight: bolder;color: #000;font-size: 40px;">{{temp.title}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content style="text-align: center;">
+            <p style="margin-bottom: 10px;font-size: 16px;">
+              Etes vous sur(e) de vouloir supprimer votre voyage ?
+            </p>
+            <div>
+              <ion-button shape="round" expand="block"  size="large" (click)="delete()" style="text-transform: none;">Oui, supprimer le voyage <i class="pi pi-spin pi-spinner" *ngIf="deleted" style="margin-left: 3px;"></i>
+              </ion-button>
+
+              <ion-button shape="round" fill="outline" size="large" expand="block" (click)="isModalOpen =false" color="medium" style="text-transform: none;margin-top: 15px;">Non, annuler la suppresion</ion-button>
+
+
+
+
+
+            </div>
+          </ion-card-content>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+
+
+
+<ion-modal class="final" [isOpen]="isModalOpens" style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+  <ng-template style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+
+    <ion-content class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+      <div class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+        <div style="text-align: center;">
+          <ion-card-header>
+            <ion-card-title style="text-align: center;">
+              <div>
+                <i class="pi pi-check" style="color: #590575;font-size: 20px;"></i>
+              </div>
+              Votre voyage a bien été supprimé !
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content style="text-align: center;">
+
+              <ion-button shape="round" expand="block" size="large" style="text-transform: none" (click)="retour()">Retour au voyage
+              </ion-button>
+
+
+
+
+
+
+          </ion-card-content>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+<ion-modal class="final" [isOpen]="isFilter" style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+  <ng-template style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+
+    <ion-content class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+        <div>
+          <ion-list >
+
+              <ion-item lines="none">
+              <ion-text style="text-align: center;font-weight: bolder;font-size: 15px">Date de création du voyage</ion-text>
+            </ion-item>
+
+              <ion-item>
+                <p-radioButton slot="end" name="range" value="croissant" [(ngModel)]="range"  inputId="range"></p-radioButton>
+                <label for="range"  class="ml-2">Ordre Croissant</label>
+
+              </ion-item>
+              <ion-item>
+                <p-radioButton slot="end" name="range" value="decroissant" [(ngModel)]="range"  inputId="range2"></p-radioButton>
+                <label for="range2"  class="ml-2">Ordre Décroissant</label>
+
+              </ion-item>
+              <ion-item lines="none">
+
+              <ion-text style="text-align: center;font-weight: bolder;font-size: 15px;">Nombre de lieux par voyages </ion-text>
+            </ion-item>
+
+              <ion-item>
+                <p-radioButton slot="end" name="lieu" value="inferieur" [(ngModel)]="lieu"  inputId="lieu1"></p-radioButton>
+                <label for="lieu1"  class="ml-2"> <= 1 lieu</label>
+              </ion-item>
+              <ion-item>
+                <p-radioButton slot="end" name="lieu" value="auplus" [(ngModel)]="lieu" inputId="lieu2"></p-radioButton>
+                <label for="lieu2"  class="ml-2">Jusqu'a 3 lieux</label>
+              </ion-item>
+              <ion-item>
+                <p-radioButton slot="end" name="lieu" value="plus"  [(ngModel)]="lieu" inputId="lieu3"></p-radioButton>
+                <label for="lieu3"  class="ml-2">Plus de 3 lieux</label>
+              </ion-item>
+
+              <ion-button  (click)="filtres()" shape="round" expand="block" >Enregistrer les filtres
+              </ion-button>
+
+
+          </ion-list>
+        </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+</ion-content>
+
+
+

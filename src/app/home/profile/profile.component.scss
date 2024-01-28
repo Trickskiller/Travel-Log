@@ -1,0 +1,120 @@
+.header {
+  height: 180px;
+  background-color: #b003f4;
+  width: 100%;
+  padding-top: 1px;
+}
+
+.header h2 {
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 0px 10px;
+}
+
+
+
+.followings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.followings p {
+  color: white;
+  margin: 8px 0px 0px 0px;
+}
+
+.img-box {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 130px;
+  width: 130px;
+  margin-top: 20px;
+}
+
+
+.border-white {
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.border-blue {
+  border: 7px solid #af00bf;
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+:host ::ng-deep .p-ripple{
+  min-width: 150px !important;
+  border-radius: 30px !important;
+  border: none !important;
+
+}
+:host ::ng-deep p-selectButton {
+  border: 1px solid #ced4da;
+  border-radius: 30px !important;
+  background-color: #d1d1d1;
+}
+:host ::ng-deep .p-button:not(:disabled):active{
+  background: #fbf0ff !important;
+  color: #ffffff !important;
+
+}
+:host ::ng-deep .p-selectbutton .p-button{
+  background: transparent !important;
+  color: black !important;;
+
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header{
+  padding: 20px !important;
+
+}
+h3{
+  margin: 0px;
+}
+:host ::ng-deep .p-selectbutton .p-button.p-highlight:hover{
+  background: #ffffff !important;
+  color: #af00bf !important;
+
+}
+:host ::ng-deep  .p-selectbutton .p-button.p-highlight{
+  background: #ffffff !important;
+  color: #af00bf !important;
+}
+ion-button{
+  --background: #5d007c;
+}
+#formss{
+  ion-item{
+    border-radius: 10px;
+    background-color: #c2c1c1;
+    ion-input{
+      padding-left: 20px !important;
+
+    }
+  }
+}
+:host ::ng-deep  .p-tag{
+  background: #590575;
+  border-color: #590575;
+
+  margin-right: 4px;
+  text-transform: lowercase !important;;
+}
+ion-fab-button{
+  --background: #590575;
+}

@@ -1,0 +1,207 @@
+
+<ion-header  [translucent]="true">
+  <ion-toolbar >
+    <div style="display: flex;justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button color="primary" class="backbtn" routerLink="/home" routerDirection="back">
+          <img src="../../assets/back-dark.svg" />
+        </ion-button>
+
+      </ion-buttons>
+
+      <div class="" style="font-weight: bolder;display: flex;justify-content: center;align-items: center;">
+        Détails
+      </div>
+      <div slot="end" style="z-index: 1000;">
+        <ion-icon name="ellipsis-vertical-outline" (click)="presentPopover($event)" id="top-center-filter" style="font-size: 1.5rem"></ion-icon>
+
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="true" class="ion-padding" style="z-index: -1;">
+  <ion-popover  #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-list>
+            <ion-item (click)="edit()" >
+              <ion-label>Modifier</ion-label>
+
+            </ion-item>
+            <ion-item  (click)="setOpen()">
+              <ion-label>Supprimer</ion-label>
+
+            </ion-item>
+
+
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+  <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf="submitted">
+    <div style="display: block;">
+      <div style="width: 100%;display: flex;justify-content: center;">
+        <ion-spinner></ion-spinner>
+      </div>
+      <p>Patientez un instant...</p>
+    </div>
+    </ion-row>
+
+    <ion-row id="map"  class="ion-no-margin ion-no-padding" style="height: 50%;width: 100%;margin-bottom: 10px">
+      <div id="map" style="width: 100%;height: 100%;">
+
+      </div>
+    </ion-row>
+
+
+  <ion-row *ngIf="!submitted"  class="ion-no-margin ion-no-padding" style="width: 100%;" >
+
+    <div class="ion-no-padding" style="width: 100%;">
+      <p-fieldset legend="{{data[0].title}}">
+        <p class="m-0">
+         {{ data[0].description}}
+            </p>
+    </p-fieldset>
+    </div>
+    <ion-text class="ion-padding" style="font-weight: bolder;font-size: 18px;color: black;">
+      Liste des places
+    </ion-text>
+    <div class="slides" *ngIf="data[0].places.length > 0">
+      <swiper-container
+      #swiper
+      (slidechange)="onSlideChange($event)"
+      [modules]="swiperModules"
+      [slidesPerView]="2"
+      [initialSlide]="1"
+      [centeredSlides]="true"
+      [autoplay]="true"
+      [spaceBetween]="20"
+      [pagination]="{clickable: true, dynamicBullets: true}">
+      <!-- effect="flip" -->
+      <swiper-slide *ngFor="let slide of data[0].places" style="width: 50%;">
+        <img [src]="slide?.pictureUrl" />
+
+      </swiper-slide>
+    </swiper-container>
+
+
+
+
+    </div>
+
+
+
+    <!-- <div style="display: flex;align-items: center;">
+      <p-avatar image="{{data.picture}}"  styleClass="mr-2" size="xlarge"  shape="circle"></p-avatar>
+      <div style="margin-left: 5px !important;">
+        <p class="ion-no-margin ion-no-padding">{{data.name}}</p>
+
+        <h6 class="ion-no-margin ion-no-padding">{{data.placeId.description}},floor:  {{data.placeId.floor}}</h6>
+
+      </div>
+    </div> -->
+
+    <!-- <div style="display: flex; padding: 2px;justify-content: space-between; margin-top: 12px;" routerLink="../../external/{{data?.userId?._id}}" >
+      <div style="display: flex;justify-content: center;align-items: center;">
+        <p-avatar label="{{data.userId.userName[0] | uppercase}}" [style]="{ 'background-color': randomColor, color: '#ffffff' }" styleClass="mr-2" size="large"  shape="circle"></p-avatar>
+        <div style="margin-left: 5px !important;">
+          <p class="ion-no-margin ion-no-padding">{{data.userId.firstName}} {{data.userId.lastName}}</p>
+
+          <h6 class="ion-no-margin ion-no-padding">{{data.userId.email}}</h6>
+
+        </div>
+      </div>
+
+
+    </div> -->
+
+
+
+
+  </ion-row>
+
+
+
+
+
+
+
+</ion-content>
+
+
+
+<ion-modal class="final" [isOpen]="isModalOpen" style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+  <ng-template style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+
+    <ion-content class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+      <div class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+        <div style="text-align: center;">
+          <ion-card-header>
+            <ion-card-title style="text-align: center;font-weight: bolder;color: #000;font-size: 40px;">{{data[0].title}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content style="text-align: center;">
+            <p style="margin-bottom: 10px;font-size: 16px;">
+              Etes vous sur(e) de vouloir supprimer votre voyage ?
+            </p>
+            <div>
+              <ion-button shape="round" expand="block"  size="large" (click)="delete()" style="text-transform: none;">Oui, supprimer le voyage <i class="pi pi-spin pi-spinner" *ngIf="deleted" style="margin-left: 3px;"></i>
+              </ion-button>
+
+              <ion-button shape="round" fill="outline" size="large" expand="block" (click)="isModalOpen =false" color="medium" style="text-transform: none;margin-top: 15px;">Non, annuler la suppresion</ion-button>
+
+
+
+
+
+            </div>
+          </ion-card-content>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+
+
+
+<ion-modal class="final" [isOpen]="isModalOpens" style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+  <ng-template style="background-color: #5d007c;width: 100%;height: 100%;background: #5d007c;">
+
+    <ion-content class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+      <div class="ion-no-padding" style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+        <div style="text-align: center;">
+          <ion-card-header>
+            <ion-card-title style="text-align: center;">
+              <div>
+                <i class="pi pi-check" style="color: #590575;font-size: 20px;"></i>
+              </div>
+              Votre voyage a bien été supprimé !
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content style="text-align: center;">
+
+              <ion-button shape="round" expand="block" size="large" style="text-transform: none" (click)="redirect()" >Retour au voyage
+              </ion-button>
+
+
+
+
+
+
+          </ion-card-content>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
