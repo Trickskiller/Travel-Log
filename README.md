@@ -1,4 +1,4 @@
-# TravelLog
+# Travel-Log
 
 ## vue d'ensemble
 
