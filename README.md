@@ -2,7 +2,7 @@
 
 ## vue d'ensemble
 
-TravelLog est une application mobile développée avec Angular et Ionic. Elle permet aux utilisateurs de créer et de gérer un journal de voyage, enregistrant les lieux visités, les images des lieux et une carte des voyages. L'interface intuitive et les fonctionnalités interactives rendent l'exploration et la documentation de vos voyages à la fois facile et agréable.
+TravelLog est une application mobile développée avec Angular et Ionic. Elle permet aux utilisateurs de créer et de gérer un journal de voyage, enregistrant les lieux visités, les images des lieux et de visualiser une carte des voyages. L'interface intuitive et les fonctionnalités interactives rendent l'exploration et la documentation de vos voyages à la fois facile et agréable.
 
 ## fonctionnalités
 
