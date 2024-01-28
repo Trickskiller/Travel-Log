@@ -6,7 +6,7 @@ TravelLog est une application mobile développée avec Angular et Ionic. Elle pe
 
 ## fonctionnalités
 
-- **Enregistrement des Lieux Visités** : Les utilisateurs peuvent ajouter des lieux à leur journal, en incluant des détails comme la date de visite, les photos et des notes personnelles.
+- **Enregistrement des Lieux Visités** : Les utilisateurs peuvent ajouter des lieux à leur journal comme les photos et des notes personnelles.
 - **Galerie de Photos** : Intégration d'une galerie pour stocker et afficher des photos de voyage.
 - **Cartographie Interactive** : Visualisation des lieux visités sur une carte interactive.
 
